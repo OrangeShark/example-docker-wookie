@@ -9,11 +9,11 @@
 (defroute (:get "/") (req res)
   (send-response res :body "Thanks for stopping by!"))
 
-(defroute (:get ".+") (req res)
+(defroute (:* ".+") (req res)
   (send-response res :body "Page not found." :status 404))
 
 (defun my-app-error-handler (ev &optional sock)
-  (let* ((dockdata (when sock (as:socket-data sock)))
+  (let* ((sockdata (when sock (as:socket-data sock)))
          (response (getf sockdata :response))
          (request (when response (response-request response))))
     (vom:error "app: ~a" ev)
